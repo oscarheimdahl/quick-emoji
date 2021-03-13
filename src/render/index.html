@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Hello World!</title>
+    <link rel="stylesheet" href="index.css" />
+  </head>
+  <body>
+    <div class="main-col">
+      <div class="info-row">
+        <p class="title">Favorites</p>
+        <p class="title help">
+          <span class="question-mark">?</span>
+          <span class="hint">
+            <span>Enter / Click: <span class="bold">copy</span></span>
+            <span>Space: <span class="bold">favorite</span></span>
+          </span>
+        </p>
+      </div>
+      <div class="favorites-grid"></div>
+      <p class="title">All</p>
+      <div class="emoji-grid"></div>
+    </div>
+  </body>
+  <script
+    src="https://rawgit.com/theraot/emoji/master/emoji.js"
+    charset="utf-8"
+  ></script>
+  <script>
+    window.$ = window.jQuery = require('jquery');
+  </script>
+  <script src="./js/emojis.js"></script>
+  <script src="./js/emojiBuilder.js"></script>
+  <script src="./js/keypress.js"></script>
+</html>

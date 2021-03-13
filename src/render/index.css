@@ -1,0 +1,155 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica,
+    Arial, sans-serif;
+  margin: auto;
+  max-width: 38rem;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  background-color: #eee;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+.main-col {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 265px;
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 0.7rem;
+  color: #666;
+  margin-left: 0.5rem;
+}
+
+.help {
+  padding: 0 0.5rem;
+  position: relative;
+  user-select: none;
+}
+
+.bold {
+  font-weight: bold;
+}
+
+.help .hint {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  right: 0;
+  top: -14px;
+  width: 100px;
+  padding: 0.5rem 0.8rem;
+  /* background-color: #eee; */
+  opacity: 0;
+  z-index: 2;
+  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
+  border-radius: 8px;
+  pointer-events: none;
+}
+
+.help:hover .question-mark {
+  opacity: 0;
+}
+
+.help:hover .hint {
+  opacity: 1;
+}
+
+.emoji-grid,
+.favorites-grid {
+  display: grid;
+  grid-template-columns: repeat(6, 40px);
+  /* grid-auto-rows: 40px; */
+  gap: 5px;
+}
+
+.emoji-grid button,
+.favorites-grid button {
+  width: 100%;
+  height: 40px;
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
+  line-height: 100%;
+  background: none;
+  outline: none;
+  border: none;
+  transition-duration: 200ms;
+  position: relative;
+}
+
+.emoji-char,
+.favorite {
+  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+button:focus .emoji-char {
+  transform: scale(1.5);
+}
+
+button:focus .favorite {
+  transform: translateY(2px);
+}
+
+button:focus {
+  position: relative;
+}
+
+button .favorite {
+  display: none;
+  position: absolute;
+  bottom: 2px;
+  left: calc(50% - 1.5px);
+  width: 3px;
+  height: 3px;
+  font-size: 0.7rem;
+  color: #666;
+  border-radius: 50%;
+  background-color: #666;
+}
+
+.copied {
+  transition: transform 1s;
+  transform: rotate(360deg);
+  width: 50px;
+  height: 20px;
+  left: calc(50% - 25px);
+  font-size: 0.8rem;
+  font-family: sans-serif;
+  /* user-select: none; */
+  /* pointer-events: none; */
+  position: absolute;
+  z-index: 2;
+  display: none;
+  animation: float-up;
+  animation-duration: 800ms;
+  animation-iteration-count: infinite;
+  text-shadow: 0 1px 3px white;
+}
+
+@keyframes float-up {
+  0% {
+    top: calc(40%);
+    opacity: 0;
+  }
+  70% {
+    top: -20%;
+    opacity: 1;
+  }
+  100% {
+    top: -20%;
+    opacity: 0;
+  }
+}
