@@ -48,29 +48,37 @@ html {
   justify-content: center;
   right: 0;
   top: -14px;
-  width: 100px;
-  padding: 0.5rem 0.8rem;
-  /* background-color: #eee; */
+  width: 130px;
+  padding: 0.3rem 0.5rem;
+  margin-right: 1rem;
+  /* padding: 0.3rem; */
+  line-height: 1rem;
   opacity: 0;
   z-index: 2;
-  /* box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px; */
   border-radius: 8px;
   pointer-events: none;
+  background: #eee;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
 }
 
-.help:hover .question-mark {
-  opacity: 0;
+.hint-row {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
-
 .help:hover .hint {
   opacity: 1;
+}
+
+#search-bar {
+  margin: 0.5rem;
+  margin-top: 0;
 }
 
 .emoji-grid,
 .favorites-grid {
   display: grid;
   grid-template-columns: repeat(6, 40px);
-  /* grid-auto-rows: 40px; */
   gap: 5px;
 }
 
@@ -92,7 +100,7 @@ html {
 
 .emoji-char,
 .favorite {
-  transition: transform 200ms cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transition: transform 200ms;
 }
 
 button:focus .emoji-char {
@@ -128,8 +136,6 @@ button .favorite {
   left: calc(50% - 25px);
   font-size: 0.8rem;
   font-family: sans-serif;
-  /* user-select: none; */
-  /* pointer-events: none; */
   position: absolute;
   z-index: 2;
   display: none;

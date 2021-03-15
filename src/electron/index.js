@@ -16,7 +16,7 @@ let emojiWindow;
 const setShortcut = () => {
   globalShortcut.register('CommandOrControl+.', () => {
     if (emojiWindow.isVisible()) app.hide();
-    else emojiWindow.show();
+    else showSettingsWindow();
   });
 };
 
@@ -24,11 +24,13 @@ const init = () => {
   buildMenuIcon(showSettingsWindow, app.exit);
   emojiWindow = buildEmojiWindow();
   setShortcut();
+  app.dock.hide();
 };
 
 const showSettingsWindow = () => {
   if (!emojiWindow) return;
   emojiWindow.show();
+  emojiWindow.webContents.send('show');
 };
 
 app.on('ready', init);

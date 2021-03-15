@@ -2,17 +2,19 @@ const { BrowserWindow, screen } = require('electron');
 const path = require('path');
 
 let emojiWindow;
-const [windowWidth, windowHeight] = [300, 500];
+const [windowWidth, windowHeight] = [300, 400];
 
 const buildEmojiWindow = () => {
   emojiWindow = new BrowserWindow({
+    skipTaskbar: true,
     show: false,
     alwaysOnTop: true,
     width: windowWidth,
     height: windowHeight,
     frame: false,
+    fullscreenable: false,
+    maximizable: false,
     resizable: false,
-    skipTaskbar: true,
     webPreferences: {
       nodeIntegration: true,
       contextIsolation: false,
@@ -23,7 +25,7 @@ const buildEmojiWindow = () => {
   emojiWindow.loadFile(path.join(__dirname, '/../render/index.html'));
   emojiWindow.once('ready-to-show', () => {
     putInCorner();
-    emojiWindow.show();
+    // emojiWindow.show();
     // emojiWindow.webContents.openDevTools();
   });
   emojiWindow.on('blur', () => emojiWindow.hide());

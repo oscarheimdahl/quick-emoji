@@ -1,6 +1,6 @@
 {
-  "name": "quick-emoji",
-  "productName": "quick-emoji",
+  "name": "Quick Emoji",
+  "productName": "Quick Emoji",
   "version": "1.0.0",
   "description": "My Electron application description",
   "main": "src/electron/index.js",
@@ -19,11 +19,15 @@
   "license": "MIT",
   "config": {
     "forge": {
-      "packagerConfig": {},
+      "packagerConfig": {
+        "icon": "./src/icons/menuIcon.icns"
+      },
       "makers": [
         {
           "name": "@electron-forge/maker-dmg",
-          "config": {}
+          "config": {
+            "icon": "./src/icons/menuIcon.icns"
+          }
         }
       ]
     }

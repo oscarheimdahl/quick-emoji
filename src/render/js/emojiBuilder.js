@@ -1,3 +1,4 @@
+const { ipcRenderer } = require('electron');
 const Store = require('electron-store');
 const store = new Store();
 
@@ -44,14 +45,16 @@ const defaultFavorites = [
   },
 ];
 
+let defaultGrid;
 $(function () {
   buildFavorites();
-  $('.emoji-grid').css('display', 'none');
-  JSON.parse(emojis).forEach((emojiInfo, i) => {
-    $('.emoji-grid').append(emojiButton(emojiInfo, i, 'all-emoji'));
-  });
-  setFavoriteIndicators();
-  $('.emoji-grid').css('display', 'grid');
+  // $('.emoji-grid').css('display', 'none');
+  // JSON.parse(emojis).forEach((emojiInfo, i) => {
+  //   $('.emoji-grid').append(emojiButton(emojiInfo, i, 'all-emoji'));
+  // });
+  // setFavoriteIndicators();
+  // $('.emoji-grid').css('display', 'grid');
+  // defaultGrid = document.getElementsByClassName('emoji-grid')[0].innerHTML;
 });
 
 function setFavoriteIndicators() {
@@ -61,6 +64,11 @@ function setFavoriteIndicators() {
       .css('display', 'block');
   });
 }
+
+ipcRenderer.on('show', function () {
+  $('#search-bar').focus();
+});
+
 function buildFavorites() {
   let favorites;
   const favoriteData = store.get('favorites');
@@ -75,17 +83,17 @@ function buildFavorites() {
     $('.favorites-grid').append(emojiButton(emojiInfo, 0, 'favorite-emoji'));
   });
 }
-
 function emojiButton(emojiInfo, i, type) {
   return `
   <button
-    ${i === 1 ? 'autofocus' : ''}
+    ${i === 0 ? 'autofocus' : ''}
     class="move ${type}"
     codes="${emojiInfo.codes}"
     name="${emojiInfo.name}"
     category="${emojiInfo.category}"
     group="${emojiInfo.group}"
     subgroup="${emojiInfo.subgroup}"
+    title="${emojiInfo.name}\n${emojiInfo.category}"
   >
     <div class="emoji-char">${emojiInfo.char}</div>
     <div class="favorite"></div>
