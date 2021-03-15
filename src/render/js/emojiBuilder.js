@@ -50,7 +50,7 @@ $(function () {
   buildFavorites();
   // $('.emoji-grid').css('display', 'none');
   // JSON.parse(emojis).forEach((emojiInfo, i) => {
-  //   $('.emoji-grid').append(emojiButton(emojiInfo, i, 'all-emoji'));
+  //   $('.emoji-grid').append(emojiButton(emojiInfo, 'all-emoji'));
   // });
   // setFavoriteIndicators();
   // $('.emoji-grid').css('display', 'grid');
@@ -80,20 +80,19 @@ function buildFavorites() {
   $('.favorites-grid').empty();
   favorites.forEach((emojiInfo, i) => {
     // console.log(JSON.stringify(emojiInfo));
-    $('.favorites-grid').append(emojiButton(emojiInfo, 0, 'favorite-emoji'));
+    $('.favorites-grid').append(emojiButton(emojiInfo, 'favorite-emoji'));
   });
 }
-function emojiButton(emojiInfo, i, type) {
+function emojiButton(emojiInfo, type) {
   return `
   <button
-    ${i === 0 ? 'autofocus' : ''}
     class="move ${type}"
     codes="${emojiInfo.codes}"
     name="${emojiInfo.name}"
     category="${emojiInfo.category}"
     group="${emojiInfo.group}"
     subgroup="${emojiInfo.subgroup}"
-    title="${emojiInfo.name}\n${emojiInfo.category}"
+    title="${emojiInfo.name}\n${emojiInfo.group}"
   >
     <div class="emoji-char">${emojiInfo.char}</div>
     <div class="favorite"></div>

@@ -1,17 +1,20 @@
 const cols = 6;
 $(document).keydown(function (e) {
   if (e.keyCode == 40) handleArrowKey(e, 'down');
-  if (e.keyCode == 39 && $('#search-bar:focus').length !== 1)
+  else if (e.keyCode == 39 && $('#search-bar:focus').length !== 1)
     handleArrowKey(e, 'right');
-  if (e.keyCode == 38) handleArrowKey(e, 'up');
-  if (e.keyCode == 37 && $('#search-bar:focus').length !== 1)
+  else if (e.keyCode == 38) handleArrowKey(e, 'up');
+  else if (e.keyCode == 37 && $('#search-bar:focus').length !== 1)
     handleArrowKey(e, 'left');
-  if (e.keyCode == 13) toClipboard($('.move:focus .emoji-char').text()); //enter
-  if (e.keyCode == 32) createFavorite(); //space
-  if (e.keyCode == 9) {
-    e.preventDefault();
-    $('#search-bar').focus();
-  }
+  else if (e.keyCode == 13) toClipboard($('.move:focus .emoji-char').text());
+  //enter
+  else if (e.keyCode == 32) createFavorite();
+  //space
+  else if (e.keyCode !== 9) $('#search-bar').focus();
+  // if (e.keyCode == 9) {
+  //   e.preventDefault();
+  //   $('#search-bar').focus();
+  // }
 });
 
 $(function () {
@@ -19,7 +22,9 @@ $(function () {
     if (e.detail !== 1) return;
     toClipboard($(this).children('.emoji-char').text(), true);
   });
-  handleSearch();
+  $('#search-bar').on('input', (e) => {
+    handleSearch(e);
+  });
 });
 
 function handleArrowKey(e, direction) {
@@ -62,6 +67,9 @@ function createFavorite() {
     group: emojiButton.attr('group'),
     subgroup: emojiButton.attr('subgroup'),
   };
+  if (!newFavorite.char) {
+    return;
+  }
   toggleFavorite(newFavorite);
   buildFavorites();
   if (emojiButton.hasClass('favorite-emoji')) {
@@ -121,7 +129,7 @@ function goBetweenGrids(direction) {
   )
     $('#search-bar').focus();
   else if (direction === 'up') $('.favorite-emoji').last().focus();
-  else if (direction === 'down') $('.all-emoji')[0].focus();
+  else if (direction === 'down' && !allEmojiFocused) $('.all-emoji')[0].focus();
 }
 
 function toClipboard(text, click) {
@@ -159,39 +167,35 @@ function emojiInViewport() {
   const top_of_screen = $(window).scrollTop();
   return bottom_of_screen > top_of_element && top_of_screen < bottom_of_element;
 }
-let searchInput = false;
-async function rebuildAll() {
-  if (searchInput) return;
-  document.getElementsByClassName('emoji-grid')[0].innerHTML = defaultGrid;
-  setFavoriteIndicators();
+let blocker = false;
+function blockSearchUpdate() {
+  return blocker;
 }
 
-function handleSearch() {
-  $('#search-bar').on('input', (e) => {
-    $('.emoji-grid').empty();
-    if (e.target.value.length === 0) {
-      return;
-    }
-    const hits = JSON.parse(emojis).filter((emoji) => {
-      const words = e.target.value.split(' ');
-      let foundScore = 0;
-      words.forEach((word) => {
-        if (emoji.name.includes(word)) foundScore++;
-        if (emoji.group.includes(word)) foundScore++;
-        if (emoji.subgroup.includes(word)) foundScore++;
-      });
-      emoji.foundScore = foundScore;
-      return foundScore > 0;
+async function handleSearch(e) {
+  $('.emoji-grid').empty();
+  if (e.target.value.length === 0) return;
+  const hits = emojis.filter((emoji) => {
+    if (e.target.value === 'all') return true;
+    const words = e.target.value.split(' ');
+    let foundScore = 0;
+    words.forEach((word) => {
+      if (word.length === 0) return;
+      if (emoji.name.toLowerCase().includes(word.toLowerCase())) foundScore++;
+      if (emoji.group.toLowerCase().includes(word.toLowerCase())) foundScore++;
+      if (emoji.subgroup.toLowerCase().includes(word.toLowerCase()))
+        foundScore++;
     });
-
-    hits
-      .sort((a, b) => {
-        return b.foundScore - a.foundScore;
-      })
-      .splice(0, 102)
-      .forEach((emojiInfo, i) => {
-        $('.emoji-grid').append(emojiButton(emojiInfo, i, 'all-emoji'));
-      });
-    setFavoriteIndicators();
+    emoji.foundScore = foundScore;
+    return foundScore > 0;
   });
+  hits
+    .sort((a, b) => {
+      return b.foundScore - a.foundScore;
+    })
+    .splice(0, 102)
+    .forEach((emojiInfo, i) => {
+      $('.emoji-grid').append(emojiButton(emojiInfo, 'all-emoji'));
+    });
+  setFavoriteIndicators();
 }
