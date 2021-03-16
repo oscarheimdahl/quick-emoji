@@ -11,32 +11,22 @@ $(document).keydown(function (e) {
   else if (e.keyCode == 32) createFavorite();
   //space
   else if (e.keyCode !== 9) $('#search-bar').focus();
-  // if (e.keyCode == 9) {
-  //   e.preventDefault();
-  //   $('#search-bar').focus();
-  // }
+});
+
+$(document).on('click', (e) => {
+  if (e.target.className === 'emoji-char')
+    toClipboard(e.target.innerText, true);
 });
 
 $(function () {
-  $('.move').on('click', function (e) {
-    if (e.detail !== 1) return;
-    toClipboard($(this).children('.emoji-char').text(), true);
-  });
   $('#search-bar').on('input', (e) => {
     handleSearch(e);
   });
+  handleScrollBottom();
 });
 
 function handleArrowKey(e, direction) {
   e.preventDefault();
-  // if ($('.move:focus').length === 0) {
-  //   if (direction === 'right' || direction === 'down')
-  //     if ($('.all-emoji').length > 0) $('.all-emoji')[0].focus();
-  //     else if ($('.favorite-emoji').length > 0)
-  //       $('.favorite-emoji').last().focus();
-  //     else $('#search-bar').focus();
-  //   return;
-  // }
   const nextIndex = direction === 'up' || direction === 'down' ? cols - 1 : 0;
   const nextEmoji =
     direction === 'left' || direction === 'up'
@@ -129,7 +119,9 @@ function goBetweenGrids(direction) {
   )
     $('#search-bar').focus();
   else if (direction === 'up') $('.favorite-emoji').last().focus();
-  else if (direction === 'down' && !allEmojiFocused) $('.all-emoji')[0].focus();
+  else if (direction === 'down' && !allEmojiFocused) {
+    $('.emoji-grid').children()[0].focus();
+  }
 }
 
 function toClipboard(text, click) {
@@ -172,9 +164,17 @@ function blockSearchUpdate() {
   return blocker;
 }
 
+let search = false;
+let searchResult = [];
 async function handleSearch(e) {
+  buildIndex = 0;
   $('.emoji-grid').empty();
-  if (e.target.value.length === 0) return;
+  if (e.target.value.length === 0) {
+    search = false;
+    buildPart();
+    return;
+  }
+  search = true;
   const hits = emojis.filter((emoji) => {
     if (e.target.value === 'all') return true;
     const words = e.target.value.split(' ');
@@ -189,13 +189,22 @@ async function handleSearch(e) {
     emoji.foundScore = foundScore;
     return foundScore > 0;
   });
-  hits
-    .sort((a, b) => {
-      return b.foundScore - a.foundScore;
-    })
-    .splice(0, 102)
-    .forEach((emojiInfo, i) => {
-      $('.emoji-grid').append(emojiButton(emojiInfo, 'all-emoji'));
-    });
-  setFavoriteIndicators();
+  searchResult = hits.sort((a, b) => {
+    return b.foundScore - a.foundScore;
+  });
+  buildIndex = 0;
+  buildPart();
+}
+
+let canRebuild = true;
+function handleScrollBottom() {
+  $(window).scroll(function () {
+    if (
+      $(window).scrollTop() + $(window).height() > $(document).height() - 100 &&
+      canRebuild
+    ) {
+      buildPart();
+      setTimeout(() => (canRebuild = true), 300);
+    }
+  });
 }

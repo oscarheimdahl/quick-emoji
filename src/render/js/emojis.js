@@ -144,14 +144,6 @@ const emojis = [
     subgroup: 'face-affection',
   },
   {
-    codes: '263A FE0F',
-    char: '☺️',
-    name: 'smiling face',
-    category: 'Smileys & Emotion (face-affection)',
-    group: 'Smileys & Emotion',
-    subgroup: 'face-affection',
-  },
-  {
     codes: '263A',
     char: '☺',
     name: 'smiling face',

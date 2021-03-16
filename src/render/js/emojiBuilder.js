@@ -45,17 +45,25 @@ const defaultFavorites = [
   },
 ];
 
-let defaultGrid;
 $(function () {
   buildFavorites();
-  // $('.emoji-grid').css('display', 'none');
-  // JSON.parse(emojis).forEach((emojiInfo, i) => {
-  //   $('.emoji-grid').append(emojiButton(emojiInfo, 'all-emoji'));
-  // });
-  // setFavoriteIndicators();
-  // $('.emoji-grid').css('display', 'grid');
-  // defaultGrid = document.getElementsByClassName('emoji-grid')[0].innerHTML;
+  buildPart();
 });
+
+let buildIndex = 0;
+let buildSize = 200;
+function buildPart() {
+  console.log(`buildIndex: ${buildIndex}`);
+  if (search) emojisToShow = searchResult;
+  else emojisToShow = emojis;
+  emojisToShow
+    .slice(buildIndex, buildIndex + buildSize)
+    .forEach((emojiInfo, i) => {
+      $('.emoji-grid').append(emojiButton(emojiInfo, 'all-emoji'));
+    });
+  setFavoriteIndicators();
+  buildIndex += buildSize;
+}
 
 function setFavoriteIndicators() {
   $('.favorite-emoji').each((i, obj) => {
