@@ -73,10 +73,6 @@ function setFavoriteIndicators() {
   });
 }
 
-ipcRenderer.on('show', function () {
-  $('#search-bar').focus();
-});
-
 function buildFavorites() {
   let favorites;
   const favoriteData = store.get('favorites');

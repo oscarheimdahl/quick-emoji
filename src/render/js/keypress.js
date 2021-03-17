@@ -128,9 +128,9 @@ function toClipboard(text, click) {
   navigator.permissions.query({ name: 'clipboard-write' }).then((result) => {
     if (result.state == 'granted' || result.state == 'prompt') {
       navigator.clipboard.writeText(text.trim()).then(() => {
-        setTimeout(() => ipcRenderer.send('hide'), 300);
+        ipcRenderer.send('hide');
         if (!click) enterFeedback();
-        // copyFeedback();
+        copyFeedback();
       });
     }
   });
@@ -143,6 +143,7 @@ function copyFeedback() {
     copiedText.removeAttr('style');
   }, 800);
 }
+
 function enterFeedback() {
   const emoji = $('.move:focus .emoji-char');
   emoji.css('transform', 'scale(1.8)');

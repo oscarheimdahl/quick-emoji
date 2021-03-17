@@ -4,7 +4,7 @@ const Store = require('electron-store');
 // Store.initRenderer();
 const store = new Store();
 const buildMenuIcon = require('./menuIcon.js');
-const buildEmojiWindow = require('./emojiWindow.js');
+const { buildEmojiWindow, putInCorner } = require('./emojiWindow.js');
 require('electron-reload')(__dirname + '/../render/');
 
 if (require('electron-squirrel-startup')) {
@@ -17,14 +17,19 @@ let emojiWindow;
 const setShortcut = () => {
   globalShortcut.register('CommandOrControl+.', () => {
     if (emojiWindow.isVisible()) app.hide();
-    else showSettingsWindow();
+    else showAndMoveWindow();
   });
+};
+
+const showAndMoveWindow = () => {
+  putInCorner();
+  emojiWindow.show();
 };
 
 const init = () => {
   buildMenuIcon(
     store.get('hideOnCopy'),
-    showSettingsWindow,
+    showAndMoveWindow,
     toggleHideOnCopy,
     app.exit
   );
@@ -33,11 +38,6 @@ const init = () => {
   if (process.platform === 'darwin') app.dock.hide();
 };
 
-const showSettingsWindow = () => {
-  if (!emojiWindow) return;
-  emojiWindow.show();
-  emojiWindow.webContents.send('show');
-};
 const toggleHideOnCopy = () => {
   if (!emojiWindow) return;
   const hideOnCopy = store.get('hideOnCopy');

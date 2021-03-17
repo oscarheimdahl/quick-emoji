@@ -23,20 +23,29 @@ const buildEmojiWindow = () => {
   });
   emojiWindow.setVisibleOnAllWorkspaces(true);
   emojiWindow.loadFile(path.join(__dirname, '/../render/index.html'));
-  emojiWindow.once('ready-to-show', () => {
-    putInCorner();
-    // emojiWindow.show();
-    // emojiWindow.webContents.openDevTools();
-  });
   emojiWindow.on('blur', () => emojiWindow.hide());
   return emojiWindow;
 };
 
 const putInCorner = () => {
-  const { width, height } = screen.getDisplayNearestPoint(
-    screen.getCursorScreenPoint()
-  ).workArea;
-  emojiWindow.setPosition(width - windowWidth, height - windowHeight);
+  const cursorPos = screen.getCursorScreenPoint();
+  let displayNearestCursor;
+  screen.getAllDisplays().forEach((display) => {
+    console.log(display.bounds.x);
+    console.log(cursorPos.x);
+    console.log(display.bounds.width);
+    console.log('-');
+    if (
+      cursorPos.x > display.bounds.x &&
+      cursorPos.x < display.bounds.x + display.bounds.width &&
+      cursorPos.y > display.bounds.y &&
+      cursorPos.y < display.bounds.y + display.bounds.height
+    )
+      displayNearestCursor = display;
+  });
+  console.log(displayNearestCursor);
+  const { width, height, x, y } = displayNearestCursor.workArea;
+  emojiWindow.setPosition(width - windowWidth + x, height - windowHeight + y);
 };
 
-module.exports = buildEmojiWindow;
+module.exports = { buildEmojiWindow, putInCorner };
