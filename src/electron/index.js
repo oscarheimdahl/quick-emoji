@@ -1,7 +1,8 @@
 const { app, globalShortcut } = require('electron');
 const { ipcMain } = require('electron/main');
 const Store = require('electron-store');
-Store.initRenderer();
+// Store.initRenderer();
+const store = new Store();
 const buildMenuIcon = require('./menuIcon.js');
 const buildEmojiWindow = require('./emojiWindow.js');
 require('electron-reload')(__dirname + '/../render/');
@@ -21,16 +22,28 @@ const setShortcut = () => {
 };
 
 const init = () => {
-  buildMenuIcon(showSettingsWindow, app.exit);
+  buildMenuIcon(
+    store.get('hideOnCopy'),
+    showSettingsWindow,
+    toggleHideOnCopy,
+    app.exit
+  );
   emojiWindow = buildEmojiWindow();
   setShortcut();
-  app.dock.hide();
+  if (process.platform === 'darwin') app.dock.hide();
 };
 
 const showSettingsWindow = () => {
   if (!emojiWindow) return;
   emojiWindow.show();
   emojiWindow.webContents.send('show');
+};
+const toggleHideOnCopy = () => {
+  if (!emojiWindow) return;
+  const hideOnCopy = store.get('hideOnCopy');
+  store.set('hideOnCopy', !hideOnCopy);
+  emojiWindow.webContents.send('hideOnCopy');
+  return !hideOnCopy;
 };
 
 app.on('ready', init);
@@ -41,5 +54,5 @@ ipcMain.on('print', (_, data) => {
   console.log(data);
 });
 ipcMain.on('hide', (_, data) => {
-  app.hide();
+  if (store.get('hideOnCopy')) app.hide();
 });
