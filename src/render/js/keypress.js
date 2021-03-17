@@ -130,7 +130,7 @@ function toClipboard(text, click) {
       navigator.clipboard.writeText(text.trim()).then(() => {
         ipcRenderer.send('hide');
         if (!click) enterFeedback();
-        copyFeedback();
+        // copyFeedback();
       });
     }
   });

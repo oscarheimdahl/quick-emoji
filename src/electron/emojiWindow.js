@@ -31,10 +31,6 @@ const putInCorner = () => {
   const cursorPos = screen.getCursorScreenPoint();
   let displayNearestCursor;
   screen.getAllDisplays().forEach((display) => {
-    console.log(display.bounds.x);
-    console.log(cursorPos.x);
-    console.log(display.bounds.width);
-    console.log('-');
     if (
       cursorPos.x > display.bounds.x &&
       cursorPos.x < display.bounds.x + display.bounds.width &&
@@ -43,7 +39,6 @@ const putInCorner = () => {
     )
       displayNearestCursor = display;
   });
-  console.log(displayNearestCursor);
   const { width, height, x, y } = displayNearestCursor.workArea;
   emojiWindow.setPosition(width - windowWidth + x, height - windowHeight + y);
 };
