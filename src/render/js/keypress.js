@@ -128,7 +128,7 @@ function toClipboard(text, click) {
   navigator.permissions.query({ name: 'clipboard-write' }).then((result) => {
     if (result.state == 'granted' || result.state == 'prompt') {
       navigator.clipboard.writeText(text.trim()).then(() => {
-        ipcRenderer.send('hide');
+        setTimeout(() => ipcRenderer.send('hide'), 300);
         if (!click) enterFeedback();
         // copyFeedback();
       });
