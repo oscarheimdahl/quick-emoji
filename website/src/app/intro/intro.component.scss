@@ -1,0 +1,23 @@
+.intro-container {
+  // background-color: brown;
+  .paragraph-field {
+    width: 80%;
+    padding: 1rem;
+    padding-right: 2rem;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+    border-radius: 8px;
+    background-color: #eee;
+    border: 1px solid #666;
+    box-sizing: border-box;
+    width: 400px;
+
+    h3 {
+      font-size: 2rem;
+      // background-color: red;
+      margin: 0;
+    }
+  }
+  .paragraph-field + .paragraph-field {
+    margin-top: 1rem;
+  }
+}
