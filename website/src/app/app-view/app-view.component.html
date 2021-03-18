@@ -1,3 +1,9 @@
 <div class="app-view-container">
-  <img src="../../assets/images/app-view.png" alt="Image of Quick Emoji" />
+  <img
+    (mousemove)="onMouseMove($event)"
+    ng-mousemove="update()"
+    [style.transform]="'rotateX(' + y + 'deg) rotateY(' + x + 'deg)'"
+    src="../../assets/images/app-view.png"
+    alt="Image of Quick Emoji"
+  />
 </div>

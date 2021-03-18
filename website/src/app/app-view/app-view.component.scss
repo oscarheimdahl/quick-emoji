@@ -1,16 +1,21 @@
 .app-view-container {
-  height: 100%;
-  float: right;
+  // background-color: brown;
   display: grid;
-  width: 40vw;
-  min-width: 400px;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+  background-color: transparent;
 
   img {
     width: 400px;
-    margin: auto 0;
+    // margin: auto 0;
+    background-color: transparent;
     animation: floatIn;
-    animation-duration: 4s;
+    animation-duration: 0.4s;
     animation-iteration-count: 1;
+    box-shadow: black 4px 4px 4px 4px;
+    // transform: rotateX(2deg) rotateY(4deg);
   }
 }
 
