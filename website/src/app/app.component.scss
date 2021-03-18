@@ -5,7 +5,6 @@
   align-items: center;
   color: white;
   margin: 30px;
-  min-width: calc(100vh - 60px);
 
   .intro-container {
     h1 {
@@ -27,6 +26,7 @@
       font-family: Source Code Pro;
     }
   }
+
   .download {
     margin-top: 2rem;
     width: 150px;
@@ -36,11 +36,29 @@
     background-color: #07b687;
     outline: solid white 3px;
     border: 1px solid white;
-    // border-radius: 8px;
     transition: outline-offset 100ms;
+    position: relative;
+  }
+  .download::after {
+    content: "Note that I am not a licensed developer so your operating system might give some warnings.";
+    position: absolute;
+    width: 300px;
+    height: 50px;
+    right: -350px;
+    top: -10px;
+    padding: 10px;
+    text-align: left;
+    background: #444;
+    user-select: none;
+    opacity: 0;
+    transition: opacity 200ms;
   }
   .download:hover {
     outline-offset: 4px;
     cursor: pointer;
+  }
+
+  .download:hover::after {
+    opacity: 1;
   }
 }
