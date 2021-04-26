@@ -10,7 +10,10 @@ $(document).keydown(function (e) {
   //enter
   else if (e.keyCode == 32) createFavorite();
   //space
-  else if (e.keyCode !== 9) $('#search-bar').focus();
+  else if (e.keyCode !== 9 && !$('#search-bar').is(':focus')) {
+    $('#search-bar').val('');
+    $('#search-bar').focus();
+  }
 });
 
 $(document).on('click', (e) => {

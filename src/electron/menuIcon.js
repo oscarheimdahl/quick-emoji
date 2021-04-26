@@ -14,7 +14,7 @@ function toggleHideOnCopyWrapper(show, toggleHideOnCopy, quit) {
 function setMenu(checked, show, toggleHideOnCopy, quit) {
   const menu = new Menu.buildFromTemplate([
     {
-      label: `Show         ${process.platform === 'darwin' ? '⌘' : 'Ctrl'} + .`,
+      label: `Show         ${process.platform === 'darwin' ? '⌘' : 'Ctrl'} .`,
       click: show,
     },
     {
