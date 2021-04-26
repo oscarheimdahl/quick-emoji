@@ -6,7 +6,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'website';
+  title = 'Quick Emoji';
   emojiImages: string[] = [
     'peace.png',
     'poop.png',
