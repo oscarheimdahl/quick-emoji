@@ -15,7 +15,7 @@ if (require('electron-squirrel-startup')) {
 let emojiWindow;
 
 const setShortcut = () => {
-  globalShortcut.register('CommandOrControl+.', () => {
+  globalShortcut.register('CommandOrControl+Shift+.', () => {
     if (emojiWindow.isVisible()) app.hide();
     else showAndMoveWindow();
   });
